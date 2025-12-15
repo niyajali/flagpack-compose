@@ -3,7 +3,7 @@
 A Kotlin Multiplatform library providing 250+ country flag icons as Compose `ImageVector` assets.
 Built on top of [flagpack-core](https://github.com/Yummygum/flagpack-core).
 
-[![Build](https://github.com/your-username/flagpack-compose/actions/workflows/build.yml/badge.svg)](https://github.com/your-username/flagpack-compose/actions/workflows/build.yml)
+[![Build](https://github.com/niyajali/flagpack-compose/actions/workflows/build.yml/badge.svg)](https://github.com/your-username/flagpack-compose/actions/workflows/build.yml)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.1.0-blue.svg)](https://kotlinlang.org)
 [![Compose Multiplatform](https://img.shields.io/badge/Compose-1.7.1-blue.svg)](https://www.jetbrains.com/lp/compose-multiplatform/)
 
