@@ -1,16 +1,19 @@
 package flagpack.icons.medium
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.path
-import androidx.compose.ui.unit.dp
-import flagpack.icons.FlagIcons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathFillType
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.PathData
+import androidx.compose.ui.graphics.vector.group
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+import flagpack.icons.FlagIcons
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
@@ -20,35 +23,181 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * - ISO Alpha-3: FLK
  * - ISO Numeric: 238
  *
- * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Medium.FalklandIslands: ImageVector
-    get() {
-        if (_falklandIslands != null) {
-            return _falklandIslands!!
-        }
-        _falklandIslands = ImageVector.Builder(
-            name = "FalklandIslands",
-            defaultWidth = 20.dp,
-            defaultHeight = 15.dp,
-            viewportWidth = 20f,
-            viewportHeight = 15f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
+public val FlagIcons.Medium.FalklandIslands: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "Falkland Islands:FK:FLK:238:Medium",
+        defaultWidth = 20.dp,
+        defaultHeight = 15.dp,
+        viewportWidth = 20f,
+        viewportHeight = 15f
+    ).apply {
+        group(
+            clipPathData = PathData {
                 moveTo(0f, 0f)
-                lineTo(20f, 0f)
-                lineTo(20f, 15f)
-                lineTo(0f, 15f)
+                horizontalLineToRelative(20f)
+                verticalLineToRelative(15f)
+                horizontalLineToRelative(-20f)
                 close()
             }
-        }.build()
-        return _falklandIslands!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _falklandIslands: ImageVector? = null
+        ) {
+            path(fill = SolidColor(Color.White)) {
+                moveTo(0f, 0f)
+                horizontalLineToRelative(20f)
+                verticalLineToRelative(15f)
+                horizontalLineToRelative(-20f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFF2E42A5)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(0f, 0f)
+                verticalLineTo(15f)
+                horizontalLineTo(20f)
+                verticalLineTo(0f)
+                horizontalLineTo(0f)
+                close()
+            }
+        }
+        group(
+            clipPathData = PathData {
+                moveTo(0f, 0f)
+                horizontalLineToRelative(11f)
+                verticalLineToRelative(9f)
+                horizontalLineToRelative(-11f)
+                close()
+            }
+        ) {
+            path(fill = SolidColor(Color(0xFF2E42A5))) {
+                moveTo(0f, 0f)
+                horizontalLineToRelative(11f)
+                verticalLineToRelative(9f)
+                horizontalLineToRelative(-11f)
+                close()
+            }
+            path(fill = SolidColor(Color(0xFFF7FCFF))) {
+                moveTo(-1.253f, 8.125f)
+                lineTo(1.223f, 9.211f)
+                lineTo(11.306f, 1.18f)
+                lineTo(12.612f, -0.433f)
+                lineTo(9.965f, -0.796f)
+                lineTo(5.852f, 2.665f)
+                lineTo(2.542f, 4.996f)
+                lineTo(-1.253f, 8.125f)
+                close()
+            }
+            path(fill = SolidColor(Color(0xFFF50100))) {
+                moveTo(-0.914f, 8.886f)
+                lineTo(0.347f, 9.516f)
+                lineTo(12.143f, -0.583f)
+                horizontalLineTo(10.372f)
+                lineTo(-0.914f, 8.886f)
+                close()
+            }
+            path(fill = SolidColor(Color(0xFFF7FCFF))) {
+                moveTo(12.503f, 8.125f)
+                lineTo(10.306f, 9.521f)
+                lineTo(-0.056f, 1.18f)
+                lineTo(-1.362f, -0.433f)
+                lineTo(1.285f, -0.796f)
+                lineTo(5.398f, 2.665f)
+                lineTo(8.708f, 4.996f)
+                lineTo(12.503f, 8.125f)
+                close()
+            }
+            path(fill = SolidColor(Color(0xFFF50100))) {
+                moveTo(12.418f, 8.671f)
+                lineTo(11.157f, 9.301f)
+                lineTo(6.134f, 4.977f)
+                lineTo(4.645f, 4.494f)
+                lineTo(-1.488f, -0.427f)
+                horizontalLineTo(0.283f)
+                lineTo(6.413f, 4.377f)
+                lineTo(8.041f, 4.957f)
+                lineTo(12.418f, 8.671f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFF50100)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(6f, 0f)
+                horizontalLineTo(5f)
+                verticalLineTo(4f)
+                horizontalLineTo(0f)
+                verticalLineTo(5f)
+                horizontalLineTo(5f)
+                verticalLineTo(9f)
+                horizontalLineTo(6f)
+                verticalLineTo(5f)
+                horizontalLineTo(11f)
+                verticalLineTo(4f)
+                horizontalLineTo(6f)
+                verticalLineTo(0f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFF7FCFF)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(4.063f, 0f)
+                horizontalLineTo(6.938f)
+                verticalLineTo(3.063f)
+                lineTo(11f, 3f)
+                verticalLineTo(5.875f)
+                lineTo(6.938f, 5.938f)
+                verticalLineTo(9f)
+                horizontalLineTo(4.063f)
+                verticalLineTo(5.938f)
+                lineTo(0f, 5.875f)
+                verticalLineTo(3f)
+                lineTo(4.063f, 3.063f)
+                verticalLineTo(0f)
+                close()
+                moveTo(5f, 4f)
+                horizontalLineTo(0f)
+                verticalLineTo(5f)
+                horizontalLineTo(5f)
+                verticalLineTo(9f)
+                horizontalLineTo(6f)
+                verticalLineTo(5f)
+                horizontalLineTo(11f)
+                verticalLineTo(4f)
+                horizontalLineTo(6f)
+                verticalLineTo(0f)
+                horizontalLineTo(5f)
+                verticalLineTo(4f)
+                close()
+            }
+        }
+        path(
+            stroke = SolidColor(Color(0xFFB85F3C)),
+            strokeLineWidth = 0.625f
+        ) {
+            moveTo(14.352f, 11.496f)
+            curveTo(14.352f, 11.496f, 14.967f, 12.085f, 14.596f, 12.484f)
+            curveTo(14.224f, 12.883f, 13.884f, 12.651f, 13.884f, 12.651f)
+        }
+        path(
+            stroke = SolidColor(Color(0xFFB85F3C)),
+            strokeLineWidth = 0.625f
+        ) {
+            moveTo(18.156f, 11.496f)
+            curveTo(18.156f, 11.496f, 17.541f, 12.085f, 17.913f, 12.484f)
+            curveTo(18.284f, 12.883f, 18.624f, 12.651f, 18.624f, 12.651f)
+        }
+        path(
+            stroke = SolidColor(Color(0xFFCB8B73)),
+            strokeLineWidth = 0.625f
+        ) {
+            moveTo(13.95f, 11.971f)
+            curveTo(13.95f, 11.971f, 15.01f, 12.983f, 16.312f, 12.983f)
+            curveTo(17.615f, 12.983f, 18.663f, 12.21f, 18.663f, 12.21f)
+        }
+    }.build()
+}
 
 @Preview
 @Composable

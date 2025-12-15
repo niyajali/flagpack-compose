@@ -18,6 +18,7 @@ object ValkyrieConverter {
 
     private const val VALKYRIE_COMMAND = "valkyrie"
     private const val TIMEOUT_SECONDS = 30L
+    private const val MAX_LINES_THRESHOLD = 3000
 
     /**
      * Check if Valkyrie CLI is installed and available.
@@ -105,10 +106,10 @@ object ValkyrieConverter {
         val command = listOf(
             VALKYRIE_COMMAND,
             "svgxml2imagevector",
-            "--input", svgFile.absolutePath,
-            "--output", outputDir.absolutePath,
-            "--package", "$packageName.${size.packageSuffix}",
-            "--output-format", "backing-property"
+            "--input-path", svgFile.absolutePath,
+            "--output-path", outputDir.absolutePath,
+            "--package-name", "$packageName.${size.packageSuffix}",
+            "--output-format", "lazy-property"
         )
 
         val process = ProcessBuilder(command)
@@ -135,7 +136,18 @@ object ValkyrieConverter {
             .firstOrNull()
             ?: throw IllegalStateException("Valkyrie did not generate output file")
 
-        return generatedFile.readText()
+        val content = generatedFile.readText()
+
+        // Check line count to prevent build failures with overly complex SVGs
+        val lineCount = content.lines().size
+        if (lineCount > MAX_LINES_THRESHOLD) {
+            throw IllegalStateException(
+                "Generated file exceeds $MAX_LINES_THRESHOLD lines ($lineCount lines). " +
+                "SVG is too complex and may cause build failures."
+            )
+        }
+
+        return content
     }
 
     /**
@@ -149,8 +161,44 @@ object ValkyrieConverter {
         generatePreview: Boolean
     ): String {
         // Extract the ImageVector.Builder content from Valkyrie output
-        val builderContent = extractBuilderContent(valkyrieOutput)
+        var builderContent = extractBuilderContent(valkyrieOutput)
             ?: throw IllegalStateException("Could not extract Builder content for ${flagEntry.propertyName}")
+
+        // Replace the name with a structured name for filtering/UI
+        val structuredName = buildImageVectorName(flagEntry, size)
+        builderContent = replaceBuilderName(builderContent, structuredName)
+
+        // Extract imports from Valkyrie output (may include PathFillType, StrokeCap, etc.)
+        val valkyrieImports = extractImports(valkyrieOutput)
+
+        // Base required imports
+        val baseImports = mutableSetOf(
+            "androidx.compose.ui.graphics.Color",
+            "androidx.compose.ui.graphics.SolidColor",
+            "androidx.compose.ui.graphics.vector.ImageVector",
+            "androidx.compose.ui.graphics.vector.path",
+            "androidx.compose.ui.unit.dp",
+            "$packageName.FlagIcons"
+        )
+
+        // Preview-related imports
+        val previewImports = if (generatePreview) {
+            setOf(
+                "androidx.compose.foundation.Image",
+                "androidx.compose.foundation.layout.Box",
+                "androidx.compose.foundation.layout.padding",
+                "androidx.compose.runtime.Composable",
+                "androidx.compose.ui.Modifier",
+                "org.jetbrains.compose.ui.tooling.preview.Preview"
+            )
+        } else {
+            emptySet()
+        }
+
+        // Merge all imports and filter out package declaration artifacts
+        val allImports = (baseImports + previewImports + valkyrieImports)
+            .filter { it.startsWith("androidx.") || it.startsWith("org.jetbrains.") || it.startsWith("kotlin.") || it.startsWith(packageName) }
+            .sorted()
 
         return buildString {
             // Package declaration
@@ -158,22 +206,7 @@ object ValkyrieConverter {
             appendLine()
 
             // Imports
-            appendLine("import androidx.compose.ui.graphics.Color")
-            appendLine("import androidx.compose.ui.graphics.SolidColor")
-            appendLine("import androidx.compose.ui.graphics.vector.ImageVector")
-            appendLine("import androidx.compose.ui.graphics.vector.path")
-            appendLine("import androidx.compose.ui.graphics.vector.group")
-            appendLine("import androidx.compose.ui.unit.dp")
-            appendLine("import $packageName.FlagIcons")
-
-            if (generatePreview) {
-                appendLine("import androidx.compose.foundation.Image")
-                appendLine("import androidx.compose.foundation.layout.Box")
-                appendLine("import androidx.compose.foundation.layout.padding")
-                appendLine("import androidx.compose.runtime.Composable")
-                appendLine("import androidx.compose.ui.Modifier")
-                appendLine("import org.jetbrains.compose.ui.tooling.preview.Preview")
-            }
+            allImports.forEach { appendLine("import $it") }
 
             appendLine()
 
@@ -192,20 +225,10 @@ object ValkyrieConverter {
             appendLine(" * @see [Flagpack](https://flagpack.xyz)")
             appendLine(" */")
 
-            // Property declaration
-            appendLine("public val FlagIcons.${size.objectName}.${flagEntry.propertyName}: ImageVector")
-            appendLine("    get() {")
-            appendLine("        if (${flagEntry.backingFieldName} != null) {")
-            appendLine("            return ${flagEntry.backingFieldName}!!")
-            appendLine("        }")
-            appendLine("        ${flagEntry.backingFieldName} = $builderContent")
-            appendLine("        return ${flagEntry.backingFieldName}!!")
-            appendLine("    }")
-            appendLine()
-
-            // Backing field
-            appendLine("@Suppress(\"ObjectPropertyName\")")
-            appendLine("private var ${flagEntry.backingFieldName}: ImageVector? = null")
+            // Property declaration using lazy delegate
+            appendLine("public val FlagIcons.${size.objectName}.${flagEntry.propertyName}: ImageVector by lazy {")
+            appendLine("    $builderContent")
+            appendLine("}")
 
             // Preview composable
             if (generatePreview) {
@@ -225,37 +248,61 @@ object ValkyrieConverter {
     }
 
     /**
+     * Build a structured name for the ImageVector that can be parsed for filtering/UI.
+     * Format: "CountryName:Alpha2:Alpha3:Numeric:Size"
+     * Example: "Afghanistan:AF:AFG:004:Large"
+     *
+     * Components can be extracted by splitting on ':'
+     * - [0] Country Name
+     * - [1] ISO Alpha-2 code
+     * - [2] ISO Alpha-3 code (or empty)
+     * - [3] ISO Numeric code (or empty)
+     * - [4] Size (Small/Medium/Large)
+     */
+    private fun buildImageVectorName(flagEntry: FlagEntry, size: FlagSize): String {
+        return listOf(
+            flagEntry.countryName,
+            flagEntry.alpha2,
+            flagEntry.alpha3 ?: "",
+            flagEntry.numeric ?: "",
+            size.objectName
+        ).joinToString(":")
+    }
+
+    /**
+     * Replace the name parameter in ImageVector.Builder with a structured name.
+     */
+    private fun replaceBuilderName(builderContent: String, newName: String): String {
+        // Match name = "..." or name = "...", patterns
+        val namePattern = Regex("""name\s*=\s*"[^"]*"""")
+        return namePattern.replaceFirst(builderContent, """name = "$newName"""")
+    }
+
+    /**
+     * Extract imports from Valkyrie-generated code.
+     * This captures additional imports like PathFillType, StrokeCap, etc.
+     */
+    private fun extractImports(content: String): Set<String> {
+        val importPattern = Regex("""^import\s+(.+)$""", RegexOption.MULTILINE)
+        return importPattern.findAll(content)
+            .map { it.groupValues[1].trim() }
+            .toSet()
+    }
+
+    /**
      * Extract the ImageVector.Builder content from generated code.
+     * Handles both backing-property and lazy-property output formats.
      */
     private fun extractBuilderContent(content: String): String? {
-        // Pattern for ImageVector.Builder with build()
-        val patterns = listOf(
-            // Pattern 1: Builder with apply block
-            Regex(
-                """ImageVector\.Builder\s*\([^)]*\)\s*\.apply\s*\{[\s\S]*?\}\s*\.build\(\)""",
-                RegexOption.DOT_MATCHES_ALL
-            ),
-            // Pattern 2: Builder().path{}.build()
-            Regex(
-                """ImageVector\.Builder\([^)]+\)[\s\S]*?\.build\(\)""",
-                RegexOption.DOT_MATCHES_ALL
-            )
-        )
-
-        for (pattern in patterns) {
-            pattern.find(content)?.let { return it.value }
-        }
-
-        // Fallback: extract manually using balanced braces
+        // Find the start of ImageVector.Builder
         val startIndex = content.indexOf("ImageVector.Builder(")
-        if (startIndex >= 0) {
-            val buildIndex = content.indexOf(".build()", startIndex)
-            if (buildIndex >= 0) {
-                return content.substring(startIndex, buildIndex + ".build()".length)
-            }
-        }
+        if (startIndex < 0) return null
 
-        return null
+        // Find the matching .build() call
+        val buildIndex = content.indexOf(".build()", startIndex)
+        if (buildIndex < 0) return null
+
+        return content.substring(startIndex, buildIndex + ".build()".length)
     }
 
     /**
@@ -302,32 +349,25 @@ object ValkyrieConverter {
             appendLine(" * Note: This flag could not be fully converted from SVG.")
             appendLine(" * @see [Flagpack](https://flagpack.xyz)")
             appendLine(" */")
-            appendLine("public val FlagIcons.${size.objectName}.${flagEntry.propertyName}: ImageVector")
-            appendLine("    get() {")
-            appendLine("        if (${flagEntry.backingFieldName} != null) {")
-            appendLine("            return ${flagEntry.backingFieldName}!!")
+            val structuredName = buildImageVectorName(flagEntry, size)
+            appendLine("public val FlagIcons.${size.objectName}.${flagEntry.propertyName}: ImageVector by lazy {")
+            appendLine("    ImageVector.Builder(")
+            appendLine("        name = \"$structuredName\",")
+            appendLine("        defaultWidth = ${size.width}.dp,")
+            appendLine("        defaultHeight = ${size.height}.dp,")
+            appendLine("        viewportWidth = ${size.width}f,")
+            appendLine("        viewportHeight = ${size.height}f")
+            appendLine("    ).apply {")
+            appendLine("        // Placeholder path - flag could not be converted")
+            appendLine("        path(fill = SolidColor(Color.Gray)) {")
+            appendLine("            moveTo(0f, 0f)")
+            appendLine("            lineTo(${size.width}f, 0f)")
+            appendLine("            lineTo(${size.width}f, ${size.height}f)")
+            appendLine("            lineTo(0f, ${size.height}f)")
+            appendLine("            close()")
             appendLine("        }")
-            appendLine("        ${flagEntry.backingFieldName} = ImageVector.Builder(")
-            appendLine("            name = \"${flagEntry.propertyName}\",")
-            appendLine("            defaultWidth = ${size.width}.dp,")
-            appendLine("            defaultHeight = ${size.height}.dp,")
-            appendLine("            viewportWidth = ${size.width}f,")
-            appendLine("            viewportHeight = ${size.height}f")
-            appendLine("        ).apply {")
-            appendLine("            // Placeholder path - flag could not be converted")
-            appendLine("            path(fill = SolidColor(Color.Gray)) {")
-            appendLine("                moveTo(0f, 0f)")
-            appendLine("                lineTo(${size.width}f, 0f)")
-            appendLine("                lineTo(${size.width}f, ${size.height}f)")
-            appendLine("                lineTo(0f, ${size.height}f)")
-            appendLine("                close()")
-            appendLine("            }")
-            appendLine("        }.build()")
-            appendLine("        return ${flagEntry.backingFieldName}!!")
-            appendLine("    }")
-            appendLine()
-            appendLine("@Suppress(\"ObjectPropertyName\")")
-            appendLine("private var ${flagEntry.backingFieldName}: ImageVector? = null")
+            appendLine("    }.build()")
+            appendLine("}")
 
             if (generatePreview) {
                 appendLine()

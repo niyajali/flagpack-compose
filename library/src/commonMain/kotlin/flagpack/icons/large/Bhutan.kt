@@ -23,32 +23,24 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Large.Bhutan: ImageVector
-    get() {
-        if (_bhutan != null) {
-            return _bhutan!!
+public val FlagIcons.Large.Bhutan: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "Bhutan:BT:BTN:064:Large",
+        defaultWidth = 32.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 32f,
+        viewportHeight = 24f
+    ).apply {
+        // Placeholder path - flag could not be converted
+        path(fill = SolidColor(Color.Gray)) {
+            moveTo(0f, 0f)
+            lineTo(32f, 0f)
+            lineTo(32f, 24f)
+            lineTo(0f, 24f)
+            close()
         }
-        _bhutan = ImageVector.Builder(
-            name = "Bhutan",
-            defaultWidth = 32.dp,
-            defaultHeight = 24.dp,
-            viewportWidth = 32f,
-            viewportHeight = 24f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
-                moveTo(0f, 0f)
-                lineTo(32f, 0f)
-                lineTo(32f, 24f)
-                lineTo(0f, 24f)
-                close()
-            }
-        }.build()
-        return _bhutan!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _bhutan: ImageVector? = null
+    }.build()
+}
 
 @Preview
 @Composable

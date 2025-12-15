@@ -23,32 +23,24 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Large.Argentina: ImageVector
-    get() {
-        if (_argentina != null) {
-            return _argentina!!
+public val FlagIcons.Large.Argentina: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "Argentina:AR:ARG:032:Large",
+        defaultWidth = 32.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 32f,
+        viewportHeight = 24f
+    ).apply {
+        // Placeholder path - flag could not be converted
+        path(fill = SolidColor(Color.Gray)) {
+            moveTo(0f, 0f)
+            lineTo(32f, 0f)
+            lineTo(32f, 24f)
+            lineTo(0f, 24f)
+            close()
         }
-        _argentina = ImageVector.Builder(
-            name = "Argentina",
-            defaultWidth = 32.dp,
-            defaultHeight = 24.dp,
-            viewportWidth = 32f,
-            viewportHeight = 24f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
-                moveTo(0f, 0f)
-                lineTo(32f, 0f)
-                lineTo(32f, 24f)
-                lineTo(0f, 24f)
-                close()
-            }
-        }.build()
-        return _argentina!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _argentina: ImageVector? = null
+    }.build()
+}
 
 @Preview
 @Composable

@@ -23,32 +23,24 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Large.Cambodia: ImageVector
-    get() {
-        if (_cambodia != null) {
-            return _cambodia!!
+public val FlagIcons.Large.Cambodia: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "Cambodia:KH:KHM:116:Large",
+        defaultWidth = 32.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 32f,
+        viewportHeight = 24f
+    ).apply {
+        // Placeholder path - flag could not be converted
+        path(fill = SolidColor(Color.Gray)) {
+            moveTo(0f, 0f)
+            lineTo(32f, 0f)
+            lineTo(32f, 24f)
+            lineTo(0f, 24f)
+            close()
         }
-        _cambodia = ImageVector.Builder(
-            name = "Cambodia",
-            defaultWidth = 32.dp,
-            defaultHeight = 24.dp,
-            viewportWidth = 32f,
-            viewportHeight = 24f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
-                moveTo(0f, 0f)
-                lineTo(32f, 0f)
-                lineTo(32f, 24f)
-                lineTo(0f, 24f)
-                close()
-            }
-        }.build()
-        return _cambodia!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _cambodia: ImageVector? = null
+    }.build()
+}
 
 @Preview
 @Composable

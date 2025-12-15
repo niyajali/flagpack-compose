@@ -21,32 +21,24 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Large.Wales: ImageVector
-    get() {
-        if (_wales != null) {
-            return _wales!!
+public val FlagIcons.Large.Wales: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "Wales:GB-WLS:::Large",
+        defaultWidth = 32.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 32f,
+        viewportHeight = 24f
+    ).apply {
+        // Placeholder path - flag could not be converted
+        path(fill = SolidColor(Color.Gray)) {
+            moveTo(0f, 0f)
+            lineTo(32f, 0f)
+            lineTo(32f, 24f)
+            lineTo(0f, 24f)
+            close()
         }
-        _wales = ImageVector.Builder(
-            name = "Wales",
-            defaultWidth = 32.dp,
-            defaultHeight = 24.dp,
-            viewportWidth = 32f,
-            viewportHeight = 24f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
-                moveTo(0f, 0f)
-                lineTo(32f, 0f)
-                lineTo(32f, 24f)
-                lineTo(0f, 24f)
-                close()
-            }
-        }.build()
-        return _wales!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _wales: ImageVector? = null
+    }.build()
+}
 
 @Preview
 @Composable

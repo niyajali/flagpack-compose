@@ -1,16 +1,19 @@
 package flagpack.icons.medium
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.path
-import androidx.compose.ui.unit.dp
-import flagpack.icons.FlagIcons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathFillType
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.PathData
+import androidx.compose.ui.graphics.vector.group
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+import flagpack.icons.FlagIcons
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
@@ -20,35 +23,64 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * - ISO Alpha-3: QAT
  * - ISO Numeric: 634
  *
- * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Medium.Qatar: ImageVector
-    get() {
-        if (_qatar != null) {
-            return _qatar!!
-        }
-        _qatar = ImageVector.Builder(
-            name = "Qatar",
-            defaultWidth = 20.dp,
-            defaultHeight = 15.dp,
-            viewportWidth = 20f,
-            viewportHeight = 15f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
+public val FlagIcons.Medium.Qatar: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "Qatar:QA:QAT:634:Medium",
+        defaultWidth = 20.dp,
+        defaultHeight = 15.dp,
+        viewportWidth = 20f,
+        viewportHeight = 15f
+    ).apply {
+        group(
+            clipPathData = PathData {
                 moveTo(0f, 0f)
-                lineTo(20f, 0f)
-                lineTo(20f, 15f)
-                lineTo(0f, 15f)
+                horizontalLineToRelative(20f)
+                verticalLineToRelative(15f)
+                horizontalLineToRelative(-20f)
                 close()
             }
-        }.build()
-        return _qatar!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _qatar: ImageVector? = null
+        ) {
+            path(fill = SolidColor(Color.White)) {
+                moveTo(0f, 0f)
+                horizontalLineToRelative(20f)
+                verticalLineToRelative(15f)
+                horizontalLineToRelative(-20f)
+                close()
+            }
+            path(fill = SolidColor(Color(0xFFB61C49))) {
+                moveTo(0f, 0f)
+                horizontalLineToRelative(20f)
+                verticalLineToRelative(15f)
+                horizontalLineToRelative(-20f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFF7FCFF)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(0f, 0f)
+                horizontalLineTo(4.25f)
+                lineTo(7.5f, 1.25f)
+                lineTo(4.25f, 2.5f)
+                lineTo(7.5f, 3.75f)
+                lineTo(4.25f, 5f)
+                lineTo(7.5f, 6.25f)
+                lineTo(4.25f, 7.5f)
+                lineTo(7.5f, 8.75f)
+                lineTo(4.25f, 10f)
+                lineTo(7.5f, 11.25f)
+                lineTo(4.25f, 12.5f)
+                lineTo(7.5f, 13.75f)
+                lineTo(4.25f, 15f)
+                horizontalLineTo(0f)
+                verticalLineTo(0f)
+                close()
+            }
+        }
+    }.build()
+}
 
 @Preview
 @Composable

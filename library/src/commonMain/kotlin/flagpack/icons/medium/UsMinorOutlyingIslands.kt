@@ -1,16 +1,19 @@
 package flagpack.icons.medium
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.path
-import androidx.compose.ui.unit.dp
-import flagpack.icons.FlagIcons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathFillType
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.PathData
+import androidx.compose.ui.graphics.vector.group
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+import flagpack.icons.FlagIcons
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
@@ -20,35 +23,319 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * - ISO Alpha-3: UMI
  * - ISO Numeric: 581
  *
- * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Medium.UsMinorOutlyingIslands: ImageVector
-    get() {
-        if (_usMinorOutlyingIslands != null) {
-            return _usMinorOutlyingIslands!!
-        }
-        _usMinorOutlyingIslands = ImageVector.Builder(
-            name = "UsMinorOutlyingIslands",
-            defaultWidth = 20.dp,
-            defaultHeight = 15.dp,
-            viewportWidth = 20f,
-            viewportHeight = 15f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
+public val FlagIcons.Medium.UsMinorOutlyingIslands: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "US Minor Outlying Islands:UM:UMI:581:Medium",
+        defaultWidth = 20.dp,
+        defaultHeight = 15.dp,
+        viewportWidth = 20f,
+        viewportHeight = 15f
+    ).apply {
+        group(
+            clipPathData = PathData {
                 moveTo(0f, 0f)
-                lineTo(20f, 0f)
-                lineTo(20f, 15f)
-                lineTo(0f, 15f)
+                horizontalLineToRelative(20f)
+                verticalLineToRelative(15f)
+                horizontalLineToRelative(-20f)
                 close()
             }
-        }.build()
-        return _usMinorOutlyingIslands!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _usMinorOutlyingIslands: ImageVector? = null
+        ) {
+            path(fill = SolidColor(Color.White)) {
+                moveTo(0f, 0f)
+                horizontalLineToRelative(20f)
+                verticalLineToRelative(15f)
+                horizontalLineToRelative(-20f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFE31D1C)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(0f, 0f)
+                horizontalLineTo(20f)
+                verticalLineTo(15f)
+                horizontalLineTo(0f)
+                verticalLineTo(0f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFF7FCFF)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(0f, 1.25f)
+                verticalLineTo(2.5f)
+                horizontalLineTo(20f)
+                verticalLineTo(1.25f)
+                horizontalLineTo(0f)
+                close()
+                moveTo(0f, 3.75f)
+                verticalLineTo(5f)
+                horizontalLineTo(20f)
+                verticalLineTo(3.75f)
+                horizontalLineTo(0f)
+                close()
+                moveTo(0f, 7.5f)
+                verticalLineTo(6.25f)
+                horizontalLineTo(20f)
+                verticalLineTo(7.5f)
+                horizontalLineTo(0f)
+                close()
+                moveTo(0f, 8.75f)
+                verticalLineTo(10f)
+                horizontalLineTo(20f)
+                verticalLineTo(8.75f)
+                horizontalLineTo(0f)
+                close()
+                moveTo(0f, 12.5f)
+                verticalLineTo(11.25f)
+                horizontalLineTo(20f)
+                verticalLineTo(12.5f)
+                horizontalLineTo(0f)
+                close()
+                moveTo(0f, 15f)
+                verticalLineTo(13.75f)
+                horizontalLineTo(20f)
+                verticalLineTo(15f)
+                horizontalLineTo(0f)
+                close()
+            }
+            path(fill = SolidColor(Color(0xFF2E42A5))) {
+                moveTo(0f, 0f)
+                horizontalLineToRelative(11.25f)
+                verticalLineToRelative(8.75f)
+                horizontalLineToRelative(-11.25f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFF7FCFF)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(1.3f, 2.717f)
+                lineTo(1.962f, 2.256f)
+                lineTo(2.476f, 2.626f)
+                horizontalLineTo(2.185f)
+                lineTo(2.774f, 3.146f)
+                lineTo(2.575f, 3.876f)
+                horizontalLineTo(2.264f)
+                lineTo(1.961f, 3.206f)
+                lineTo(1.704f, 3.876f)
+                horizontalLineTo(0.935f)
+                lineTo(1.524f, 4.396f)
+                lineTo(1.3f, 5.217f)
+                lineTo(1.962f, 4.756f)
+                lineTo(2.476f, 5.126f)
+                horizontalLineTo(2.185f)
+                lineTo(2.774f, 5.646f)
+                lineTo(2.575f, 6.376f)
+                horizontalLineTo(2.264f)
+                lineTo(1.961f, 5.706f)
+                lineTo(1.704f, 6.376f)
+                horizontalLineTo(0.935f)
+                lineTo(1.524f, 6.896f)
+                lineTo(1.3f, 7.717f)
+                lineTo(1.962f, 7.256f)
+                lineTo(2.603f, 7.717f)
+                lineTo(2.404f, 6.896f)
+                lineTo(2.919f, 6.376f)
+                horizontalLineTo(2.681f)
+                lineTo(3.212f, 6.006f)
+                lineTo(3.726f, 6.376f)
+                horizontalLineTo(3.435f)
+                lineTo(4.024f, 6.896f)
+                lineTo(3.8f, 7.717f)
+                lineTo(4.462f, 7.256f)
+                lineTo(5.103f, 7.717f)
+                lineTo(4.904f, 6.896f)
+                lineTo(5.419f, 6.376f)
+                horizontalLineTo(5.181f)
+                lineTo(5.712f, 6.006f)
+                lineTo(6.226f, 6.376f)
+                horizontalLineTo(5.935f)
+                lineTo(6.524f, 6.896f)
+                lineTo(6.3f, 7.717f)
+                lineTo(6.962f, 7.256f)
+                lineTo(7.603f, 7.717f)
+                lineTo(7.404f, 6.896f)
+                lineTo(7.919f, 6.376f)
+                horizontalLineTo(7.681f)
+                lineTo(8.212f, 6.006f)
+                lineTo(8.726f, 6.376f)
+                horizontalLineTo(8.435f)
+                lineTo(9.024f, 6.896f)
+                lineTo(8.8f, 7.717f)
+                lineTo(9.462f, 7.256f)
+                lineTo(10.103f, 7.717f)
+                lineTo(9.904f, 6.896f)
+                lineTo(10.419f, 6.376f)
+                horizontalLineTo(9.764f)
+                lineTo(9.461f, 5.706f)
+                lineTo(9.204f, 6.376f)
+                horizontalLineTo(8.831f)
+                lineTo(8.654f, 5.646f)
+                lineTo(9.169f, 5.126f)
+                horizontalLineTo(8.931f)
+                lineTo(9.462f, 4.756f)
+                lineTo(10.103f, 5.217f)
+                lineTo(9.904f, 4.396f)
+                lineTo(10.419f, 3.876f)
+                horizontalLineTo(9.764f)
+                lineTo(9.461f, 3.206f)
+                lineTo(9.204f, 3.876f)
+                horizontalLineTo(8.831f)
+                lineTo(8.654f, 3.146f)
+                lineTo(9.169f, 2.626f)
+                horizontalLineTo(8.931f)
+                lineTo(9.462f, 2.256f)
+                lineTo(10.103f, 2.717f)
+                lineTo(9.904f, 1.896f)
+                lineTo(10.419f, 1.376f)
+                horizontalLineTo(9.764f)
+                lineTo(9.461f, 0.706f)
+                lineTo(9.204f, 1.376f)
+                horizontalLineTo(8.435f)
+                lineTo(9.024f, 1.896f)
+                lineTo(8.825f, 2.626f)
+                horizontalLineTo(8.514f)
+                lineTo(8.211f, 1.956f)
+                lineTo(7.954f, 2.626f)
+                horizontalLineTo(7.581f)
+                lineTo(7.404f, 1.896f)
+                lineTo(7.919f, 1.376f)
+                horizontalLineTo(7.264f)
+                lineTo(6.961f, 0.706f)
+                lineTo(6.704f, 1.376f)
+                horizontalLineTo(5.935f)
+                lineTo(6.524f, 1.896f)
+                lineTo(6.325f, 2.626f)
+                horizontalLineTo(6.014f)
+                lineTo(5.711f, 1.956f)
+                lineTo(5.454f, 2.626f)
+                horizontalLineTo(5.081f)
+                lineTo(4.904f, 1.896f)
+                lineTo(5.419f, 1.376f)
+                horizontalLineTo(4.764f)
+                lineTo(4.461f, 0.706f)
+                lineTo(4.204f, 1.376f)
+                horizontalLineTo(3.435f)
+                lineTo(4.024f, 1.896f)
+                lineTo(3.825f, 2.626f)
+                horizontalLineTo(3.514f)
+                lineTo(3.211f, 1.956f)
+                lineTo(2.954f, 2.626f)
+                horizontalLineTo(2.581f)
+                lineTo(2.404f, 1.896f)
+                lineTo(2.919f, 1.376f)
+                horizontalLineTo(2.264f)
+                lineTo(1.961f, 0.706f)
+                lineTo(1.704f, 1.376f)
+                horizontalLineTo(0.935f)
+                lineTo(1.524f, 1.896f)
+                lineTo(1.3f, 2.717f)
+                close()
+                moveTo(8.825f, 5.126f)
+                lineTo(9.024f, 4.396f)
+                lineTo(8.435f, 3.876f)
+                horizontalLineTo(8.726f)
+                lineTo(8.212f, 3.506f)
+                lineTo(7.681f, 3.876f)
+                horizontalLineTo(7.919f)
+                lineTo(7.404f, 4.396f)
+                lineTo(7.581f, 5.126f)
+                horizontalLineTo(7.954f)
+                lineTo(8.211f, 4.456f)
+                lineTo(8.514f, 5.126f)
+                horizontalLineTo(8.825f)
+                close()
+                moveTo(7.476f, 5.126f)
+                lineTo(6.962f, 4.756f)
+                lineTo(6.431f, 5.126f)
+                horizontalLineTo(6.669f)
+                lineTo(6.154f, 5.646f)
+                lineTo(6.331f, 6.376f)
+                horizontalLineTo(6.704f)
+                lineTo(6.961f, 5.706f)
+                lineTo(7.264f, 6.376f)
+                horizontalLineTo(7.575f)
+                lineTo(7.774f, 5.646f)
+                lineTo(7.185f, 5.126f)
+                horizontalLineTo(7.476f)
+                close()
+                moveTo(5.274f, 5.646f)
+                lineTo(5.075f, 6.376f)
+                horizontalLineTo(4.764f)
+                lineTo(4.461f, 5.706f)
+                lineTo(4.204f, 6.376f)
+                horizontalLineTo(3.831f)
+                lineTo(3.654f, 5.646f)
+                lineTo(4.169f, 5.126f)
+                horizontalLineTo(3.931f)
+                lineTo(4.462f, 4.756f)
+                lineTo(4.976f, 5.126f)
+                horizontalLineTo(4.685f)
+                lineTo(5.274f, 5.646f)
+                close()
+                moveTo(5.454f, 5.126f)
+                horizontalLineTo(5.081f)
+                lineTo(4.904f, 4.396f)
+                lineTo(5.419f, 3.876f)
+                horizontalLineTo(5.181f)
+                lineTo(5.712f, 3.506f)
+                lineTo(6.226f, 3.876f)
+                horizontalLineTo(5.935f)
+                lineTo(6.524f, 4.396f)
+                lineTo(6.325f, 5.126f)
+                horizontalLineTo(6.014f)
+                lineTo(5.711f, 4.456f)
+                lineTo(5.454f, 5.126f)
+                close()
+                moveTo(3.825f, 5.126f)
+                lineTo(4.024f, 4.396f)
+                lineTo(3.435f, 3.876f)
+                horizontalLineTo(3.726f)
+                lineTo(3.212f, 3.506f)
+                lineTo(2.681f, 3.876f)
+                horizontalLineTo(2.919f)
+                lineTo(2.404f, 4.396f)
+                lineTo(2.581f, 5.126f)
+                horizontalLineTo(2.954f)
+                lineTo(3.211f, 4.456f)
+                lineTo(3.514f, 5.126f)
+                horizontalLineTo(3.825f)
+                close()
+                moveTo(7.774f, 3.146f)
+                lineTo(7.575f, 3.876f)
+                horizontalLineTo(7.264f)
+                lineTo(6.961f, 3.206f)
+                lineTo(6.704f, 3.876f)
+                horizontalLineTo(6.331f)
+                lineTo(6.154f, 3.146f)
+                lineTo(6.669f, 2.626f)
+                horizontalLineTo(6.431f)
+                lineTo(6.962f, 2.256f)
+                lineTo(7.476f, 2.626f)
+                horizontalLineTo(7.185f)
+                lineTo(7.774f, 3.146f)
+                close()
+                moveTo(4.976f, 2.626f)
+                lineTo(4.462f, 2.256f)
+                lineTo(3.931f, 2.626f)
+                horizontalLineTo(4.169f)
+                lineTo(3.654f, 3.146f)
+                lineTo(3.831f, 3.876f)
+                horizontalLineTo(4.204f)
+                lineTo(4.461f, 3.206f)
+                lineTo(4.764f, 3.876f)
+                horizontalLineTo(5.075f)
+                lineTo(5.274f, 3.146f)
+                lineTo(4.685f, 2.626f)
+                horizontalLineTo(4.976f)
+                close()
+            }
+        }
+    }.build()
+}
 
 @Preview
 @Composable

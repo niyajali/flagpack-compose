@@ -70,7 +70,7 @@ jobs:
       - name: Check for new flags
         id: check
         run: |
-          ./gradlew checkNewFlags \
+          ./gradlew checkNewFlags --no-configuration-cache \
             -PflagpackGitRef="${{ inputs.ref || 'main' }}"
 
       - name: Report check results
@@ -127,7 +127,7 @@ jobs:
       - name: Sync flags from upstream
         id: sync
         run: |
-          ./gradlew syncAndGenerate \
+          ./gradlew syncAndGenerate --no-configuration-cache \
             -PflagpackGitRef="${{ inputs.ref || 'main' }}"
 
       - name: Check for changes

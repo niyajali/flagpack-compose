@@ -34,6 +34,17 @@ kotlin {
         }
     }
 
+    js(IR) {
+        browser()
+        nodejs()
+    }
+
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        nodejs()
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(projects.library)
@@ -42,6 +53,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.material3)
             implementation(compose.components.resources)
+            implementation(libs.fluentui.system.icons)
         }
 
         androidMain.dependencies {
