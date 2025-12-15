@@ -1,0 +1,38 @@
+[versions]
+kotlin = "2.2.21"
+compose-multiplatform = "1.9.3"
+agp = "8.12.3"
+
+# Generator dependencies
+jgit = "7.5.0.202512021534-r"
+kotlinpoet = "2.2.0"
+kotlinx-serialization = "1.9.0"
+
+# Sample dependencies
+androidx-activity-compose = "1.10.1"
+androidx-lifecycle = "2.9.0"
+
+[libraries]
+# Compose dependencies
+compose-ui = { module = "org.jetbrains.compose.ui:ui" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation" }
+
+# Generator dependencies (for build-logic)
+# Note: SVG to ImageVector conversion uses Valkyrie CLI (install via: brew install ComposeGears/repo/valkyrie)
+generator-jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
+generator-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# Sample dependencies
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }

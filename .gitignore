@@ -1,0 +1,44 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+
+# Kotlin
+*.class
+*.log
+*.ctxt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local configuration
+local.properties
+*.local
+
+# Sync logs
+flagpack-sync.log
+
+# Generated files (keep tracked but ignore local changes)
+# !library/src/commonMain/kotlin/flagpack/icons/
+
+# Node (if using any JS tooling)
+node_modules/
+
+# Build outputs
+out/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
