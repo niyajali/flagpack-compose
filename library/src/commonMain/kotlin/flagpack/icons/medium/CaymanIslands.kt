@@ -23,32 +23,24 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Medium.CaymanIslands: ImageVector
-    get() {
-        if (_caymanIslands != null) {
-            return _caymanIslands!!
+public val FlagIcons.Medium.CaymanIslands: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "Cayman Islands:KY:CYM:136:Medium",
+        defaultWidth = 20.dp,
+        defaultHeight = 15.dp,
+        viewportWidth = 20f,
+        viewportHeight = 15f
+    ).apply {
+        // Placeholder path - flag could not be converted
+        path(fill = SolidColor(Color.Gray)) {
+            moveTo(0f, 0f)
+            lineTo(20f, 0f)
+            lineTo(20f, 15f)
+            lineTo(0f, 15f)
+            close()
         }
-        _caymanIslands = ImageVector.Builder(
-            name = "CaymanIslands",
-            defaultWidth = 20.dp,
-            defaultHeight = 15.dp,
-            viewportWidth = 20f,
-            viewportHeight = 15f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
-                moveTo(0f, 0f)
-                lineTo(20f, 0f)
-                lineTo(20f, 15f)
-                lineTo(0f, 15f)
-                close()
-            }
-        }.build()
-        return _caymanIslands!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _caymanIslands: ImageVector? = null
+    }.build()
+}
 
 @Preview
 @Composable

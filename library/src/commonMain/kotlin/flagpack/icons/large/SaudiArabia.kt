@@ -23,32 +23,24 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Large.SaudiArabia: ImageVector
-    get() {
-        if (_saudiArabia != null) {
-            return _saudiArabia!!
+public val FlagIcons.Large.SaudiArabia: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "Saudi Arabia:SA:SAU:682:Large",
+        defaultWidth = 32.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 32f,
+        viewportHeight = 24f
+    ).apply {
+        // Placeholder path - flag could not be converted
+        path(fill = SolidColor(Color.Gray)) {
+            moveTo(0f, 0f)
+            lineTo(32f, 0f)
+            lineTo(32f, 24f)
+            lineTo(0f, 24f)
+            close()
         }
-        _saudiArabia = ImageVector.Builder(
-            name = "SaudiArabia",
-            defaultWidth = 32.dp,
-            defaultHeight = 24.dp,
-            viewportWidth = 32f,
-            viewportHeight = 24f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
-                moveTo(0f, 0f)
-                lineTo(32f, 0f)
-                lineTo(32f, 24f)
-                lineTo(0f, 24f)
-                close()
-            }
-        }.build()
-        return _saudiArabia!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _saudiArabia: ImageVector? = null
+    }.build()
+}
 
 @Preview
 @Composable

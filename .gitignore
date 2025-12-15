@@ -42,3 +42,4 @@ out/
 *.zip
 *.tar.gz
 *.rar
+.kotlin

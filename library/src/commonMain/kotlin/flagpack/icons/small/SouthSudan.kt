@@ -1,16 +1,19 @@
 package flagpack.icons.small
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.path
-import androidx.compose.ui.unit.dp
-import flagpack.icons.FlagIcons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathFillType
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.PathData
+import androidx.compose.ui.graphics.vector.group
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+import flagpack.icons.FlagIcons
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
@@ -20,35 +23,115 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * - ISO Alpha-3: SSD
  * - ISO Numeric: 728
  *
- * Note: This flag could not be fully converted from SVG.
  * @see [Flagpack](https://flagpack.xyz)
  */
-public val FlagIcons.Small.SouthSudan: ImageVector
-    get() {
-        if (_southSudan != null) {
-            return _southSudan!!
-        }
-        _southSudan = ImageVector.Builder(
-            name = "SouthSudan",
-            defaultWidth = 16.dp,
-            defaultHeight = 12.dp,
-            viewportWidth = 16f,
-            viewportHeight = 12f
-        ).apply {
-            // Placeholder path - flag could not be converted
-            path(fill = SolidColor(Color.Gray)) {
+public val FlagIcons.Small.SouthSudan: ImageVector by lazy {
+    ImageVector.Builder(
+        name = "South Sudan:SS:SSD:728:Small",
+        defaultWidth = 16.dp,
+        defaultHeight = 12.dp,
+        viewportWidth = 16f,
+        viewportHeight = 12f
+    ).apply {
+        group(
+            clipPathData = PathData {
                 moveTo(0f, 0f)
-                lineTo(16f, 0f)
-                lineTo(16f, 12f)
-                lineTo(0f, 12f)
+                horizontalLineToRelative(16f)
+                verticalLineToRelative(12f)
+                horizontalLineToRelative(-16f)
                 close()
             }
-        }.build()
-        return _southSudan!!
-    }
-
-@Suppress("ObjectPropertyName")
-private var _southSudan: ImageVector? = null
+        ) {
+            path(fill = SolidColor(Color.White)) {
+                moveTo(0f, 0f)
+                horizontalLineToRelative(16f)
+                verticalLineToRelative(12f)
+                horizontalLineToRelative(-16f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFF7FCFF)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(0f, 0f)
+                horizontalLineTo(16f)
+                verticalLineTo(12f)
+                horizontalLineTo(0f)
+                verticalLineTo(0f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFF272727)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(0f, 0f)
+                verticalLineTo(4f)
+                horizontalLineTo(16f)
+                verticalLineTo(0f)
+                horizontalLineTo(0f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFF4E8B1D)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(0f, 8f)
+                verticalLineTo(12f)
+                horizontalLineTo(16f)
+                verticalLineTo(8f)
+                horizontalLineTo(0f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFE31D1C)),
+                stroke = SolidColor(Color(0xFFF7FCFF)),
+                strokeLineWidth = 1f
+            ) {
+                moveTo(0f, 3.5f)
+                horizontalLineTo(-0.5f)
+                verticalLineTo(4f)
+                verticalLineTo(8f)
+                verticalLineTo(8.5f)
+                horizontalLineTo(0f)
+                horizontalLineTo(16f)
+                horizontalLineTo(16.5f)
+                verticalLineTo(8f)
+                verticalLineTo(4f)
+                verticalLineTo(3.5f)
+                horizontalLineTo(16f)
+                horizontalLineTo(0f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFF3D58DB)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(0f, 0f)
+                lineTo(10f, 6f)
+                lineTo(0f, 12f)
+                verticalLineTo(0f)
+                close()
+            }
+            path(
+                fill = SolidColor(Color(0xFFFECA00)),
+                pathFillType = PathFillType.EvenOdd
+            ) {
+                moveTo(3.324f, 7.204f)
+                lineTo(2.314f, 8.254f)
+                lineTo(2.209f, 6.762f)
+                lineTo(0.921f, 5.968f)
+                lineTo(2.264f, 5.547f)
+                lineTo(2.484f, 4.068f)
+                lineTo(3.413f, 5.239f)
+                lineTo(4.769f, 4.876f)
+                lineTo(4.068f, 6.263f)
+                lineTo(4.75f, 7.602f)
+                lineTo(3.324f, 7.204f)
+                close()
+            }
+        }
+    }.build()
+}
 
 @Preview
 @Composable
