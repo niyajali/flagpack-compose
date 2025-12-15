@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -6,6 +7,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.maven)
     id("flagpack.icons")
 }
 
@@ -69,6 +71,14 @@ kotlin {
             implementation(compose.preview)
         }
     }
+
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.get().compilerOptions {
+                freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -79,13 +89,79 @@ android {
     namespace = "flagpack.compose"
     compileSdk = 36
 
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     defaultConfig {
-        minSdk = 23
+        minSdk = 21
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        compose = true
+        buildConfig = false
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+    lint {
+        abortOnError = false
+        warningsAsErrors = false
+    }
+}
+
+// Maven publishing configuration
+val artifactId = "flagpack-compose"
+val mavenGroup: String by project
+val defaultVersion: String by project
+val currentVersion = System.getenv("PACKAGE_VERSION") ?: defaultVersion
+val desc: String by project
+val license: String by project
+val creationYear: String by project
+val githubRepo: String by project
+
+group = mavenGroup
+version = currentVersion
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+    coordinates(mavenGroup, artifactId, currentVersion)
+
+    pom {
+        name = project.name
+        description = desc
+        inceptionYear = creationYear
+        url = "https://github.com/$githubRepo"
+        licenses {
+            license {
+                name = license
+                url = "https://github.com/$githubRepo/blob/main/LICENSE"
+            }
+        }
+        developers {
+            developer {
+                id = "niyajali"
+                name = "Sk Niyaj Ali"
+                url = "https://github.com/niyajali/"
+            }
+        }
+        scm {
+            url = "https://github.com/$githubRepo.git"
+            connection = "scm:git:git://github.com/$githubRepo.git"
+            developerConnection = "scm:git:git://github.com/$githubRepo.git"
+        }
+        issueManagement {
+            url = "https://github.com/$githubRepo/issues"
+        }
     }
 }
 
