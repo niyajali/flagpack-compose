@@ -34,7 +34,7 @@ dependencyResolutionManagement {
     }
 }
 
-include(":library")
+include(":lib")
 include(":sample:shared")
 include(":sample:androidApp")
 include(":sample:desktopApp")

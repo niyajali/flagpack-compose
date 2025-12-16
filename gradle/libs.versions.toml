@@ -12,6 +12,8 @@ kotlinx-serialization = "1.9.0"
 androidx-activity-compose = "1.10.1"
 androidx-lifecycle = "2.9.0"
 
+maven = "0.30.0"
+
 [libraries]
 # Compose dependencies
 compose-ui = { module = "org.jetbrains.compose.ui:ui" }
@@ -38,3 +40,4 @@ compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-m
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
+maven = { id = 'com.vanniktech.maven.publish', version.ref = 'maven' }
