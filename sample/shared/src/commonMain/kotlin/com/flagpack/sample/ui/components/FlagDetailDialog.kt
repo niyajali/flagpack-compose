@@ -53,9 +53,13 @@ import com.flagpack.sample.ui.icons.CheckIcon
 import com.flagpack.sample.ui.icons.CloseIcon
 import com.flagpack.sample.ui.icons.CodeIcon
 import com.flagpack.sample.ui.icons.CopyIcon
+import com.flagpack.sample.ui.icons.DownloadIcon
 import com.flagpack.sample.ui.theme.GradientColors
 import com.flagpack.sample.ui.theme.Strings
 import com.flagpack.sample.util.ClipboardManager
+import com.flagpack.sample.util.DownloadResult
+import com.flagpack.sample.util.ExportFormat
+import com.flagpack.sample.util.FileDownloader
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -70,8 +74,14 @@ fun FlagDetailDialog(
     elevation: Dp = 16.dp
 ) {
     var showCopied by remember { mutableStateOf(false) }
+    var showSvgCopied by remember { mutableStateOf(false) }
+    var showXmlCopied by remember { mutableStateOf(false) }
+    var svgDownloadStatus by remember { mutableStateOf<String?>(null) }
+    var xmlDownloadStatus by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
     val codeSnippet = remember(flagInfo) { flagInfo.generateCodeSnippet() }
+    val svgContent = remember(flagInfo) { flagInfo.generateSvg() }
+    val xmlContent = remember(flagInfo) { flagInfo.generateXml() }
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -124,6 +134,66 @@ fun FlagDetailDialog(
                                     delay(2000)
                                     showCopied = false
                                 }
+                            }
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    // Export section
+                    ExportSection(
+                        showSvgCopied = showSvgCopied,
+                        showXmlCopied = showXmlCopied,
+                        svgDownloadStatus = svgDownloadStatus,
+                        xmlDownloadStatus = xmlDownloadStatus,
+                        onCopySvg = {
+                            val success = ClipboardManager.copyToClipboard(svgContent)
+                            if (success) {
+                                showSvgCopied = true
+                                scope.launch {
+                                    delay(2000)
+                                    showSvgCopied = false
+                                }
+                            }
+                        },
+                        onCopyXml = {
+                            val success = ClipboardManager.copyToClipboard(xmlContent)
+                            if (success) {
+                                showXmlCopied = true
+                                scope.launch {
+                                    delay(2000)
+                                    showXmlCopied = false
+                                }
+                            }
+                        },
+                        onDownloadSvg = {
+                            val result = FileDownloader.downloadFile(
+                                content = svgContent,
+                                fileName = flagInfo.exportFileName,
+                                format = ExportFormat.SVG
+                            )
+                            svgDownloadStatus = when (result) {
+                                is DownloadResult.Success -> Strings.DOWNLOAD_SUCCESS
+                                is DownloadResult.Error -> Strings.DOWNLOAD_ERROR
+                            }
+                            scope.launch {
+                                delay(2000)
+                                svgDownloadStatus = null
+                            }
+                        },
+                        onDownloadXml = {
+                            val result = FileDownloader.downloadFile(
+                                content = xmlContent,
+                                fileName = flagInfo.exportFileName,
+                                format = ExportFormat.XML
+                            )
+                            xmlDownloadStatus = when (result) {
+                                is DownloadResult.Success -> Strings.DOWNLOAD_SUCCESS
+                                is DownloadResult.Error -> Strings.DOWNLOAD_ERROR
+                            }
+                            scope.launch {
+                                delay(2000)
+                                xmlDownloadStatus = null
                             }
                         }
                     )
@@ -467,5 +537,161 @@ private fun FlagColorsSection(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ExportSection(
+    showSvgCopied: Boolean,
+    showXmlCopied: Boolean,
+    svgDownloadStatus: String?,
+    xmlDownloadStatus: String?,
+    onCopySvg: () -> Unit,
+    onCopyXml: () -> Unit,
+    onDownloadSvg: () -> Unit,
+    onDownloadXml: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = DownloadIcon,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp),
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = Strings.EXPORT_SECTION_TITLE,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Export cards
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            // SVG Export Card
+            ExportCard(
+                format = Strings.EXPORT_SVG,
+                showCopied = showSvgCopied,
+                downloadStatus = svgDownloadStatus,
+                onCopy = onCopySvg,
+                onDownload = onDownloadSvg,
+                modifier = Modifier.weight(1f)
+            )
+
+            // XML Export Card
+            ExportCard(
+                format = Strings.EXPORT_XML,
+                showCopied = showXmlCopied,
+                downloadStatus = xmlDownloadStatus,
+                onCopy = onCopyXml,
+                onDownload = onDownloadXml,
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun ExportCard(
+    format: String,
+    showCopied: Boolean,
+    downloadStatus: String?,
+    onCopy: () -> Unit,
+    onDownload: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = format,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Action buttons
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // Copy button
+                ExportActionButton(
+                    icon = if (showCopied) CheckIcon else CopyIcon,
+                    label = if (showCopied) Strings.COPIED else Strings.COPY_CODE,
+                    isSuccess = showCopied,
+                    onClick = onCopy,
+                    modifier = Modifier.weight(1f)
+                )
+
+                // Download button
+                ExportActionButton(
+                    icon = if (downloadStatus == Strings.DOWNLOAD_SUCCESS) CheckIcon else DownloadIcon,
+                    label = format,
+                    isSuccess = downloadStatus == Strings.DOWNLOAD_SUCCESS,
+                    isError = downloadStatus == Strings.DOWNLOAD_ERROR,
+                    onClick = onDownload,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExportActionButton(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    isSuccess: Boolean = false,
+    isError: Boolean = false,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val buttonColor = when {
+        isSuccess -> MaterialTheme.colorScheme.tertiary
+        isError -> MaterialTheme.colorScheme.error
+        else -> MaterialTheme.colorScheme.primary
+    }
+
+    Button(
+        onClick = onClick,
+        modifier = modifier.height(36.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
+        contentPadding = ButtonDefaults.ContentPadding
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(14.dp),
+            tint = Color.White
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = Color.White,
+            maxLines = 1
+        )
     }
 }

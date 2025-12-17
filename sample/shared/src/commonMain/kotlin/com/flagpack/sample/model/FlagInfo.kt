@@ -3,6 +3,7 @@ package com.flagpack.sample.model
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.flagpack.sample.ui.theme.Strings
+import com.flagpack.sample.util.ImageVectorConverter
 
 /**
  * Represents a flag with all its metadata parsed from the ImageVector name.
@@ -72,6 +73,26 @@ data class FlagInfo(
             appendLine(")")
         }
     }
+
+    /**
+     * Generates SVG representation of this flag
+     */
+    fun generateSvg(): String {
+        return ImageVectorConverter.toSvg(imageVector, countryName)
+    }
+
+    /**
+     * Generates Android Vector Drawable XML representation of this flag
+     */
+    fun generateXml(): String {
+        return ImageVectorConverter.toXml(imageVector, countryName)
+    }
+
+    /**
+     * File name for exports (without extension)
+     */
+    val exportFileName: String
+        get() = "${propertyName.lowercase()}_${size.name.lowercase()}"
 
     companion object {
         /**

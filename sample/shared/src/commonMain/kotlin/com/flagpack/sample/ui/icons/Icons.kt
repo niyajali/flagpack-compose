@@ -20,8 +20,11 @@ import fluent.ui.system.icons.regular.Info
 import fluent.ui.system.icons.regular.Location
 import fluent.ui.system.icons.regular.Map
 import fluent.ui.system.icons.regular.Search
+import fluent.ui.system.icons.regular.ArrowDownload
 
 val SearchIcon: ImageVector = FluentIcons.Regular.Search
+
+val DownloadIcon: ImageVector = FluentIcons.Regular.ArrowDownload
 
 val ClearIcon: ImageVector = FluentIcons.Regular.Dismiss
 
