@@ -8,13 +8,18 @@ import org.w3c.files.Blob
 import org.w3c.files.BlobPropertyBag
 
 actual object FileDownloader {
+    @OptIn(ExperimentalWasmJsInterop::class)
     actual fun downloadFile(content: String, fileName: String, format: ExportFormat): DownloadResult {
         return try {
             val fullFileName = "$fileName.${format.extension}"
 
+            // Create JsArray and add content as JsString
+            val parts = JsArray<JsAny?>()
+            parts[0] = content.toJsString()
+
             // Create blob from content
             val blob = Blob(
-                arrayOf(content),
+                parts,
                 BlobPropertyBag(type = format.mimeType)
             )
 
