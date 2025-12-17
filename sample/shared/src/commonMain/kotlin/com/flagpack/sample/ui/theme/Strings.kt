@@ -53,4 +53,15 @@ object Strings {
     // Code snippet
     const val CODE_COMMENT_IMPORT = "// Import"
     const val CODE_COMMENT_USAGE = "// Usage"
+
+    // Export/Download
+    const val EXPORT_SECTION_TITLE = "Export Flag"
+    const val EXPORT_SVG = "SVG"
+    const val EXPORT_XML = "Vector XML"
+    const val DOWNLOAD_SVG = "Download SVG"
+    const val DOWNLOAD_XML = "Download XML"
+    const val DOWNLOAD_SUCCESS = "Downloaded!"
+    const val DOWNLOAD_ERROR = "Error"
+    const val COPY_SVG = "Copy SVG"
+    const val COPY_XML = "Copy XML"
 }

@@ -42,3 +42,4 @@ out/
 *.tar.gz
 *.rar
 .kotlin
+/.claude/
